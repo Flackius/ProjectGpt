@@ -1,79 +1,78 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Selección de Profesor y Materia</title>
-  </head>
-  <body>
-    <h1>Selección de Profesor y Materia</h1>
-    
-    <!-- Selección de Profesor -->
-    <label for="profesor">Seleccione un Profesor:</label>
-    <select id="profesor" name="profesor" onchange="cargarMaterias()">
-      <option value="">Seleccione un Profesor</option>
-      <option value="profesor1">Profesor 1</option>
-      <option value="profesor2">Profesor 2</option>
-      <option value="profesor3">Profesor 3</option>
-    </select>
-    
-    <!-- Selección de Materia -->
-    <label for="materia">Seleccione una Materia:</label>
-    <select id="materia" name="materia">
-      <option value="">Seleccione un Profesor primero</option>
-    </select>
-    
-    <!-- Botón para agregar Materia -->
-    <button onclick="agregarMateria()">Agregar Materia</button>
-    
-    <!-- Tabla de Materias seleccionadas -->
-    <table id="tablaMaterias">
-      <thead>
-        <tr>
-          <th>Profesor</th>
-          <th>Materia</th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
-    
-    <script>
-      function cargarMaterias() {
-        // Obtener el valor seleccionado en el selector de Profesor
-        const profesorSeleccionado = document.getElementById("profesor").value;
-        
-        // Obtener el selector de Materias
-        const selectorMaterias = document.getElementById("materia");
-        
-        // Limpiar las opciones del selector de Materias
-        selectorMaterias.innerHTML = "";
-        
-        // Si se ha seleccionado un Profesor, agregar las Materias correspondientes
-        if (profesorSeleccionado) {
-          if (profesorSeleccionado === "profesor1") {
-            selectorMaterias.add(new Option("Materia 1"));
-            selectorMaterias.add(new Option("Materia 2"));
-          } else if (profesorSeleccionado === "profesor2") {
-            selectorMaterias.add(new Option("Materia 3"));
-            selectorMaterias.add(new Option("Materia 4"));
-          } else if (profesorSeleccionado === "profesor3") {
-            selectorMaterias.add(new Option("Materia 5"));
-            selectorMaterias.add(new Option("Materia 6"));
-          }
-        } else {
-          // Si no se ha seleccionado un Profesor, mostrar mensaje de advertencia
-          selectorMaterias.add(new Option("Seleccione un Profesor primero"));
-        }
-      }
-      
-      function agregarMateria() {
-        // Obtener los valores seleccionados en los selectores de Profesor y Materia
-        const profesorSeleccionado = document.getElementById("profesor").value;
-        const materiaSeleccionada = document.getElementById("materia").value;
-        
-        // Si se han seleccionado ambos valores, agregarlos a la tabla de Materias
-        if (profesorSeleccionado && materiaSeleccionada) {
-          const tablaMaterias = document.getElementById("tablaMaterias").getElementsByTagName("tbody")[0];
-          
-          const nuevaFila = tablaMaterias.insertRow();
-          const celdaProfesor = nuevaFila.insertCell();
-          const celdaMateria = nuevaF
+<head>
+	<title>Seleccionar Profesor y Materia</title>
+</head>
+<body>
+	<h2>Seleccionar Profesor y Materia</h2>
+	<label for="profesor">Seleccionar Profesor:</label>
+	<select id="profesor" name="profesor" onchange="actualizarMaterias()">
+		<option value="">Seleccionar</option>
+		<option value="1">Profesor 1</option>
+		<option value="2">Profesor 2</option>
+		<option value="3">Profesor 3</option>
+	</select>
+	<label for="materia">Seleccionar Materia:</label>
+	<select id="materia" name="materia">
+		<option value="">Seleccionar</option>
+	</select>
+	<button onclick="agregarMateria()">Agregar Materia</button>
+	<br><br>
+	<table id="tablaMaterias" border="1">
+		<thead>
+			<tr>
+				<th>Profesor</th>
+				<th>Materia</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+
+	<script>
+		const materiasPorProfesor = {
+			1: ["Materia 1", "Materia 2", "Materia 3"],
+			2: ["Materia 4", "Materia 5", "Materia 6"],
+			3: ["Materia 7", "Materia 8", "Materia 9"]
+		};
+
+		function actualizarMaterias() {
+			const selectProfesor = document.getElementById("profesor");
+			const selectMateria = document.getElementById("materia");
+			const profesorSeleccionado = selectProfesor.value;
+
+			// Limpiar las opciones anteriores
+			selectMateria.innerHTML = "";
+			// Agregar la opción de selección
+			const opcionSeleccionar = document.createElement("option");
+			opcionSeleccionar.value = "";
+			opcionSeleccionar.textContent = "Seleccionar";
+			selectMateria.appendChild(opcionSeleccionar);
+
+			// Agregar las opciones correspondientes al profesor seleccionado
+			if (profesorSeleccionado !== "") {
+				const materias = materiasPorProfesor[profesorSeleccionado];
+				for (let i = 0; i < materias.length; i++) {
+					const opcionMateria = document.createElement("option");
+					opcionMateria.value = materias[i];
+					opcionMateria.textContent = materias[i];
+					selectMateria.appendChild(opcionMateria);
+				}
+			}
+		}
+
+		function agregarMateria() {
+			const selectProfesor = document.getElementById("profesor");
+			const selectMateria = document.getElementById("materia");
+			const tablaMaterias = document.getElementById("tablaMaterias");
+			const profesorSeleccionado = selectProfesor.options[selectProfesor.selectedIndex].text;
+			const materiaSeleccionada = selectMateria.value;
+
+			if (profesorSeleccionado !== "" && materiaSeleccionada !== "") {
+				const fila = document.createElement("tr");
+				const celdaProfesor = document.createElement("td");
+				const celdaMateria = document.createElement("td");
+				celdaProfesor.textContent = profesorSeleccionado;
+				celdaMateria.textContent = materiaSeleccionada;
+				fila.appendChild(celdaProfesor);
+				fila.appendChild
